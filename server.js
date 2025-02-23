@@ -1,30 +1,43 @@
-require('dotenv').config();
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
+require('dotenv').config();  // Load .env file
+
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateText";
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) {
+    console.error("❌ ERROR: API key is missing. Check your .env file.");
+    process.exit(1);  // Stop execution if the key is missing
+}
 
-app.post('/generate-quiz', async (req, res) => {
-    const { topic } = req.body;
+const genAI = new GoogleGenerativeAI(apiKey);
 
-    const prompt = `Generate a quiz with 10 multiple-choice questions on ${topic}. 
-    Each question should have 4 options, with one correct answer clearly indicated.`;
-
+app.post("/generate-quiz", async (req, res) => {
     try {
-        const response = await axios.post(`${GEMINI_URL}?key=${GEMINI_API_KEY}`, {
-            prompt
-        });
+        const { topic } = req.body;
+        if (!topic) {
+            return res.status(400).json({ error: "Topic is required" });
+        }
 
-        res.json(response.data);
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const prompt = `Generate a quiz with multiple-choice questions about ${topic}.`;
+        
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+
+        res.json({ quiz: text });
     } catch (error) {
-        res.status(500).json({ error: "Error fetching quiz" });
+        console.error("❌ Error generating quiz:", error);
+        res.status(500).json({ error: "Failed to generate quiz" });
     }
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+app.listen(3000, () => {
+    console.log("✅ Server running on port 3000");
+});

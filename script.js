@@ -1,48 +1,29 @@
+const API_URL = "http://localhost:3000/generate-quiz";
+
 async function generateQuiz() {
-    const topic = document.getElementById("topic").value;
+    const topic = document.getElementById("topic").value.trim();
     if (!topic) {
         alert("Please enter a topic!");
         return;
     }
 
-    const response = await fetch("http://localhost:3000/generate-quiz", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic })
-    });
+    document.getElementById("quiz").innerHTML = "<p>⏳ Generating questions... Please wait.</p>";
 
-    const data = await response.json();
-    
-    displayQuiz(data);
-}
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ topic })
+        });
 
-function displayQuiz(quizData) {
-    const quizDiv = document.getElementById("quiz");
-    quizDiv.innerHTML = ""; 
-
-    quizData.questions.forEach((q, index) => {
-        const questionHTML = `
-            <div class="question">
-                <p><strong>${index + 1}. ${q.question}</strong></p>
-                ${q.options.map((option, i) => 
-                    `<label><input type="radio" name="q${index}" value="${option}"> ${option}</label><br>`).join("")}
-            </div>
-        `;
-        quizDiv.innerHTML += questionHTML;
-    });
-}
-
-function submitQuiz() {
-    let score = 0;
-    document.querySelectorAll(".question").forEach((q, index) => {
-        const selected = document.querySelector(`input[name="q${index}"]:checked`);
-        if (selected && selected.value === quizData.questions[index].answer) {
-            score++;
+        if (!response.ok) {
+            throw new Error("Failed to fetch quiz");
         }
-    });
-    document.getElementById("score").innerText = `Your Score: ${score} / 10`;
-}
 
-function goBack() {
-    window.history.back();
+        const data = await response.json();
+        displayQuiz(data.questions);
+    } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("quiz").innerHTML = "<p>❌ Error generating quiz. Try again!</p>";
+    }
 }
