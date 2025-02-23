@@ -4,35 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Quiz Generator</title>
-    <script defer src="script.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-        .container { max-width: 600px; margin: auto; }
-        .nav { display: flex; justify-content: space-between; padding: 10px; background: #333; color: white; }
-        .quiz-box { margin-top: 20px; }
-        .question { margin-bottom: 10px; }
-        button { margin-top: 10px; padding: 10px; cursor: pointer; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.container {
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+input, button {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+button {
+    cursor: pointer;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+button:hover {
+    background-color: #218838;
+}
+.question {
+    text-align: left;
+    margin: 15px 0;
+}
+
+</style>
 <body>
-    <div class="nav">
-        <button onclick="goBack()">Back</button>
-        <h2>AI Quiz Generator</h2>
-    </div>
+
+    <nav>
+        <button onclick="goBack()">🔙 Back</button>
+    </nav>
+
     <div class="container">
-        <input type="text" id="topic" placeholder="Enter a topic" />
+        <h2>AI Quiz Generator</h2>
+        <input type="text" id="topic" placeholder="Enter a topic...">
         <button onclick="generateQuiz()">Generate Quiz</button>
-        <div id="quiz" class="quiz-box"></div>
-        <button onclick="submitQuiz()">Submit</button>
+
+        <div id="quiz"></div>
+        <button id="submitBtn" onclick="submitQuiz()" style="display: none;">Submit Quiz</button>
         <h3 id="score"></h3>
     </div>
+
+  
+
     <script>
-        async function generateQuiz() {
-    const topic = document.getElementById("topic").value;
+        let quizData = [];
+
+async function generateQuiz() {
+    const topic = document.getElementById("topic").value.trim();
     if (!topic) {
         alert("Please enter a topic!");
         return;
     }
+
+    document.getElementById("quiz").innerHTML = "<p>Generating questions... Please wait.</p>";
 
     const response = await fetch("http://localhost:3000/generate-quiz", {
         method: "POST",
@@ -41,15 +81,21 @@
     });
 
     const data = await response.json();
-    
-    displayQuiz(data);
+    quizData = data.questions;
+
+    if (!quizData || quizData.length === 0) {
+        document.getElementById("quiz").innerHTML = "<p>Failed to generate quiz. Try again!</p>";
+        return;
+    }
+
+    displayQuiz();
 }
 
-function displayQuiz(quizData) {
+function displayQuiz() {
     const quizDiv = document.getElementById("quiz");
     quizDiv.innerHTML = ""; 
 
-    quizData.questions.forEach((q, index) => {
+    quizData.forEach((q, index) => {
         const questionHTML = `
             <div class="question">
                 <p><strong>${index + 1}. ${q.question}</strong></p>
@@ -59,13 +105,15 @@ function displayQuiz(quizData) {
         `;
         quizDiv.innerHTML += questionHTML;
     });
+
+    document.getElementById("submitBtn").style.display = "block";
 }
 
 function submitQuiz() {
     let score = 0;
-    document.querySelectorAll(".question").forEach((q, index) => {
+    quizData.forEach((q, index) => {
         const selected = document.querySelector(`input[name="q${index}"]:checked`);
-        if (selected && selected.value === quizData.questions[index].answer) {
+        if (selected && selected.value === q.answer) {
             score++;
         }
     });
