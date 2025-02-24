@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Submission</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<style>
+    /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #585887;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Container */
+.container {
+    background: #d1c8da;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+textarea, select, input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Problems Display */
+.submitted-problems {
+    margin-top: 20px;
+    text-align: left;
+}
+
+#problemsList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.problem-card {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid #007bff;
+    position: relative;
+}
+
+.problem-card h4 {
+    margin: 0;
+}
+
+.problem-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.like-btn, .edit-btn, .delete-btn {
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.like-btn { background: green; color: white; }
+.edit-btn { background: orange; color: white; }
+.delete-btn { background: red; color: white; }
+
+.like-btn:hover { background: darkgreen; }
+.edit-btn:hover { background: darkorange; }
+.delete-btn:hover { background: darkred; }
+
+</style>
+<body>
+
+    <div class="container">
+        <h1>Submit Your Problem & Solution</h1>
+
+        <!-- Problem Submission Form -->
+        <form id="problemForm">
+            <label for="problem">Problem Statement:</label>
+            <textarea id="problem" required></textarea>
+
+            <label for="solution">Your Solution:</label>
+            <textarea id="solution" required></textarea>
+
+            <label for="category">Select Category:</label>
+            <select id="category" required>
+                <option value="Technology">Technology</option>
+                <option value="Environment">Environment</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Education">Education</option>
+            </select>
+
+            <button type="submit">Submit</button>
+            <h4>seacrh any problem</h4>
+        </form>
+
+        <!-- Search Bar -->
+        <input type="text" id="searchBar" placeholder="Search problems...">
+
+        <!-- Display Submitted Problems -->
+        <div class="submitted-problems">
+            <h3>Submitted Problems</h3>
+            <div id="problemsList"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    loadProblems();
+});
+
+// Get elements
+const problemForm = document.getElementById("problemForm");
+const problemsList = document.getElementById("problemsList");
+const searchBar = document.getElementById("searchBar");
+
+// Load stored problems
+function loadProblems() {
+    const savedProblems = JSON.parse(localStorage.getItem("problems")) || [];
+    problemsList.innerHTML = "";
+    savedProblems.forEach((problem, index) => addProblemToList(problem, index));
+}
+
+// Add problem to the list
+function addProblemToList(problem, index) {
+    const card = document.createElement("div");
+    card.classList.add("problem-card");
+    card.innerHTML = `
+        <h4>${problem.category} - ${problem.problem}</h4>
+        <p><strong>Solution:</strong> ${problem.solution}</p>
+        <div class="problem-actions">
+            <button class="like-btn">👍 ${problem.likes || 0}</button>
+            <button class="edit-btn">✏️ Edit</button>
+            <button class="delete-btn" data-index="${index}">❌ Delete</button>
+        </div>
+    `;
+
+    // Like button
+    card.querySelector(".like-btn").addEventListener("click", () => {
+        problem.likes = (problem.likes || 0) + 1;
+        saveProblems();
+        loadProblems();
+    });
+
+    // Edit button
+    card.querySelector(".edit-btn").addEventListener("click", () => {
+        document.getElementById("problem").value = problem.problem;
+        document.getElementById("solution").value = problem.solution;
+        document.getElementById("category").value = problem.category;
+        deleteProblem(index);
+    });
+
+    // Delete button
+    card.querySelector(".delete-btn").addEventListener("click", () => {
+        deleteProblem(index);
+    });
+
+    problemsList.appendChild(card);
+}
+
+// Save problems to local storage
+function saveProblems() {
+    let problems = JSON.parse(localStorage.getItem("problems")) || [];
+    localStorage.setItem("problems", JSON.stringify(problems));
+}
+
+// Delete problem
+function deleteProblem(index) {
+    let problems = JSON.parse(localStorage.getItem("problems")) || [];
+    problems.splice(index, 1);
+    localStorage.setItem("problems", JSON.stringify(problems));
+    loadProblems();
+}
+
+// Handle form submission
+problemForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const newProblem = {
+        problem: document.getElementById("problem").value.trim(),
+        solution: document.getElementById("solution").value.trim(),
+        category: document.getElementById("category").value,
+        likes: 0
+    };
+
+    let problems = JSON.parse(localStorage.getItem("problems")) || [];
+    problems.push(newProblem);
+    localStorage.setItem("problems", JSON.stringify(problems));
+
+    problemForm.reset();
+    loadProblems();
+});
+
+// Search functionality
+searchBar.addEventListener("input", () => {
+    const searchQuery = searchBar.value.toLowerCase();
+    document.querySelectorAll(".problem-card").forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(searchQuery) ? "block" : "none";
+    });
+});
+
+    </script>
+</body>
+</html>

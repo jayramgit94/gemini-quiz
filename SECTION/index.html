@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Selection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .navbar button {
+            background: none;
+            border: 2px solid white;
+            color: white;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .navbar button:hover {
+            background: white;
+            color: black;
+        }
+
+        /* Container */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 80%;
+            max-width: 800px;
+            margin-top: 80px;
+        }
+
+        /* Quiz Box */
+        .quiz-box {
+            padding: 40px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .quiz-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Quiz Colors */
+        .quiz1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .quiz2 { background: linear-gradient(135deg, #ff9966, #ff5e62); }
+        .quiz3 { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div>Quiz Selection</div>
+        <button onclick="goBack()">⬅ Back</button>
+    </div>
+
+    <!-- Quiz Options -->
+    <div class="container">
+        <div class="quiz-box quiz1" onclick="navigateToQuiz('quiz1')">ThinkLab</div>
+        <div class="quiz-box quiz2" onclick="navigateToQuiz('quiz2')">See & Solve</div>
+        <div class="quiz-box quiz3" onclick="navigateToQuiz('quiz3')">IdeaPitch</div>
+    </div>
+
+    <script>
+        function openThinkLab() {
+    window.location.href = "../section1/index.html"; // Update with actual file path
+}
+
+function openSeeAndSolve() {
+    window.location.href = "../section2/index.html"; // Update with actual file path
+}
+
+function openIdeaPitch() {
+    window.location.href = "../sectoin3/index1.html"; // Update with actual file path
+}
+
+    </script>
+
+</body>
+</html>

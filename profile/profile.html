@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <button class="back-btn" onclick="goBack()">&#8592; Back</button>
+        <h2>Player Profile</h2>
+    </nav>
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li class="active">Profile</li>
+            </ul>
+        </aside>
+        <main class="profile-content">
+            <div class="profile-header">
+                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Profile Picture" class="profile-pic">
+                <h2>Player Name</h2>
+                <p class="username">@username</p>
+                <p class="email">email@example.com</p>
+            </div>
+            <div class="profile-info">
+                <p><strong>Bio:</strong> Passionate coder and quiz enthusiast.</p>
+                <p><strong>Questions Solved:</strong> 150</p>
+                <p><strong>Streak:</strong> 30 days</p>
+                <p><strong>Progress:</strong> Level 5</p>
+                <p><strong>Achievements:</strong> 3 Badges</p>
+                <p><strong>Quiz Completion:</strong> 75%</p>
+                <p><strong>Levels Unlocked:</strong> 10</p>
+                <p><strong>Activity Done:</strong> 120 Challenges</p>
+                <p><strong>Rank:</strong> Top 5%</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: #1e1e2e;
+            color: #ffffff;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #252542;
+            padding: 15px;
+        }
+        .back-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2d2d4a;
+            padding: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+        }
+        .sidebar li {
+            padding: 10px;
+            background: #ff4757;
+            text-align: center;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .profile-content {
+            flex: 1;
+            padding: 40px;
+        }
+        .profile-header {
+            text-align: center;
+        }
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .profile-info p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>

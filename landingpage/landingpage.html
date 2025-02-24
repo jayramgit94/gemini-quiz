@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVIRA | Next-Gen Learning</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            color: #fff;
+            overflow-x: hidden;
+        }
+        nav {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .logo {
+            font-weight: bold;
+            font-size: 1.8em;
+            letter-spacing: 2px;
+        }
+        .menu ul {
+            list-style: none;
+            display: flex;
+        }
+        .menu li {
+            margin-left: 20px;
+        }
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .menu a:hover {
+            color: #ff9a9e;
+        }
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        header {
+            text-align: center;
+            padding: 150px 20px 50px;
+        }
+        .typing-text {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px;
+        }
+        .text-content {
+            max-width: 50%;
+        }
+        .cta-button {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 75, 43, 0.5);
+        }
+        .image-area img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        @media (max-width: 768px) {
+            .menu ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 50px;
+                right: 0;
+                width: 150px;
+                padding: 10px;
+                background: rgba(0, 0, 0, 0.8);
+                text-align: center;
+            }
+            .menu.show ul {
+                display: flex;
+            }
+            .hamburger {
+                display: block;
+            }
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .text-content {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">AVIRA</div>
+        <div class="menu">
+            <ul>
+                <li><a href="#"></a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Tutorials</a></li>
+            </ul>
+            <div class="hamburger">&#9776;</div>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Welcome To AVIRA</h1>
+        <h2 class="typing-text"></h2>
+    </header>
+
+    <div class="container">
+        <div class="text-content">
+            <p>Empower your coding journey with our comprehensive tutorials and expert insights, unlocking the world of programming one step at a time.</p>
+            <br>
+            <a href="../Sign-Up-and-Login-Page/form.html" class="cta-button">Get Started →</a>
+        </div>
+        
+        <div class="image-area">
+            <img src="../landingpage/undraw_code_thinking_re_gka2.svg" alt="Hero Image">
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.hamburger').click(function() {
+                $('.menu').toggleClass('show');
+            });
+        });
+        var typed = new Typed('.typing-text', {
+            strings: ["From Design To Coding", "Learn, Build, and Achieve", "Transforming Ideas into Reality"],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+    </script>
+</body>
+</html>

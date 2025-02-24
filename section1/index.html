@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Solving Section</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Problem Solving Section</h1>
+
+        <!-- Difficulty Selection -->
+        <div class="difficulty-selection">
+            <button class="difficulty-btn" data-level="easy">Easy</button>
+            <button class="difficulty-btn" data-level="medium">Medium</button>
+            <button class="difficulty-btn" data-level="hard">Hard</button>
+        </div>
+
+        <!-- Problem Display -->
+        <div id="problem-display">
+            <h2>Question:</h2>
+            <p id="question-text">Select a difficulty level to see a question.</p>
+            <button id="next-btn" style="display: none;">Next Question</button>
+        </div>
+
+        <!-- Solution Submission Form -->
+        <form id="solutionForm">
+            <label for="solution">Your Solution:</label>
+            <textarea id="solution" required></textarea>
+            <button type="submit">Submit Solution</button>
+        </form>
+
+        <!-- Submitted Solutions -->
+        <div class="submitted-solutions">
+            <h3>Submitted Solutions</h3>
+            <div id="solutionsList"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

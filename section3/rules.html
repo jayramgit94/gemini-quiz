@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Selection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 80%;
+            max-width: 800px;
+        }
+        .quiz-box {
+            padding: 40px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .quiz-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .quiz1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .quiz2 { background: linear-gradient(135deg, #ff9966, #ff5e62); }
+        .quiz3 { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+        
+        @media (max-width: 600px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Popup Styles */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+        }
+        .popup h2 {
+            margin-bottom: 15px;
+        }
+        .popup ul {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .popup button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-box quiz1" onclick="navigateToQuiz('quiz1')">Quiz 1</div>
+        <div class="quiz-box quiz2" onclick="navigateToQuiz('quiz2')">Quiz 2</div>
+        <div class="quiz-box quiz3" onclick="navigateToQuiz('quiz3')">Quiz 3</div>
+    </div>
+
+    <div class="popup" id="rulesPopup">
+        <h2>Game Rules</h2>
+        <ul>
+            <li>No bad words</li>
+            <li>No cheating</li>
+            <li>No tab switching</li>
+            <li>Complete the quiz within the given time</li>
+            <li>Respect other players</li>
+            <li>Have fun and do your best!</li>
+        </ul>
+        <button onclick="closePopup()">OK</button>
+    </div>
+
+    <script>
+        function navigateToQuiz(quizName) {
+            window.location.href = `../section1/index.html?quiz=${quizName}`;
+        }
+
+        function showPopup() {
+            document.getElementById('rulesPopup').style.display = 'block';
+        }
+
+        function closePopup() {
+            window.location.href = '../section1/index.html';
+        }
+
+        window.onload = showPopup;
+    </script>
+</body>
+</html>
